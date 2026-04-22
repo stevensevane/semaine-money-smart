@@ -36,8 +36,10 @@ export async function onRequestPost({ request, env }) {
 
   const createData = await createRes.json();
 
-  if (!createRes.ok && createRes.status !== 409) {
-    return json({ error: `Erreur ${createRes.status}: ${JSON.stringify(createData)}` }, 500);
+  if (!createRes.ok) {
+    const isDuplicate = createRes.status === 409 || createRes.status === 422;
+    if (isDuplicate) return json({ success: true }); // contact déjà existant → on redirige quand même vers /merci
+    return json({ error: `Erreur ${createRes.status}: ${createData.detail || createData.message}` }, 500);
   }
 
   const contactId = createData.id;
