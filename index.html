@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Semaine Money Smart — Reprends tes finances en main</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blue:       #3535CC;
+            --blue-dark:  #2828A8;
+            --blue-light: #5555E0;
+            --lavender:   #ECEEFF;
+            --green:      #39D353;
+            --green-dark: #28B840;
+            --white:      #FFFFFF;
+            --text:       #1A1A2E;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--blue);
+            color: white;
+            padding: 64px 24px 80px;
+        }
+
+        .hero-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .hero-content { flex: 1; }
+
+        .hero-pre {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            opacity: .85;
+        }
+
+        .hero-title {
+            font-size: clamp(2.6rem, 6vw, 4.4rem);
+            font-weight: 900;
+            line-height: 1.08;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-title .accent { color: var(--green); }
+
+        .hero-photo {
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--green);
+            flex-shrink: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,.25);
+        }
+
+        /* ── BENEFITS BAND ── */
+        .benefits {
+            background: var(--lavender);
+            padding: 52px 24px;
+            text-align: center;
+        }
+
+        .benefits-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .benefit-item {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--blue);
+            line-height: 1.4;
+        }
+
+        .benefit-item .highlight {
+            color: var(--blue);
+            font-weight: 900;
+            text-decoration: underline;
+            text-decoration-color: var(--green);
+            text-underline-offset: 4px;
+        }
+
+        /* ── FORM ── */
+        .form-section {
+            background: white;
+            padding: 64px 24px 72px;
+            text-align: center;
+        }
+
+        .form-eyebrow {
+            font-size: .85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green-dark);
+            margin-bottom: 10px;
+        }
+
+        .form-section h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--blue);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .form-section .form-sub {
+            font-size: .95rem;
+            color: #666;
+            margin-bottom: 36px;
+        }
+
+        .form-wrapper {
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        .form-wrapper input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #DDD;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color .2s;
+            color: var(--text);
+        }
+
+        .form-wrapper input:focus { border-color: var(--blue); }
+        .form-wrapper input::placeholder { color: #AAA; }
+
+        .btn-cta {
+            width: 100%;
+            padding: 18px 24px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            transition: background .2s, transform .1s, box-shadow .2s;
+            box-shadow: 0 4px 16px rgba(57,211,83,.35);
+        }
+
+        .btn-cta:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(57,211,83,.45);
+        }
+
+        .form-note {
+            margin-top: 14px;
+            font-size: .78rem;
+            color: #999;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how {
+            background: var(--blue);
+            color: white;
+            padding: 72px 24px;
+            text-align: center;
+        }
+
+        .how h2 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+        }
+
+        .how-cards {
+            max-width: 820px;
+            margin: 0 auto 56px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .how-card {
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 18px;
+            padding: 36px 24px;
+        }
+
+        .how-card .emoji { font-size: 2.4rem; margin-bottom: 14px; }
+
+        .how-card h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: var(--green);
+        }
+
+        .how-card p {
+            font-size: .9rem;
+            line-height: 1.6;
+            opacity: .85;
+        }
+
+        /* second CTA inside .how */
+        .how-cta-wrap { max-width: 460px; margin: 0 auto; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--blue-dark);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .disclaimer {
+            font-size: .72rem;
+            line-height: 1.7;
+            opacity: .6;
+            max-width: 680px;
+            margin: 0 auto 28px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            font-size: .82rem;
+            font-weight: 600;
+            opacity: .75;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { opacity: 1; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .hero-inner {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .hero-photo { width: 150px; height: 150px; }
+            .benefit-item { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-content">
+            <p class="hero-pre">💸 Et si tu reprenais tes finances en main ?</p>
+            <h1 class="hero-title">
+                Rejoins la<br>
+                Semaine<br>
+                <span class="accent">Money Smart</span>&nbsp;!
+            </h1>
+        </div>
+        <!-- Remplace src par l'URL de ta vraie photo -->
+        <img src="photo-sarah.jpg" alt="Sarah" class="hero-photo" />
+    </div>
+</section>
+
+<!-- ══════════ BENEFITS ══════════ -->
+<section class="benefits">
+    <div class="benefits-inner">
+        <p class="benefit-item">👉 <span class="highlight">du lundi 27 Avril au vendredi 1er Mai</span></p>
+        <p class="benefit-item">👉 100&nbsp;% gratuit</p>
+        <p class="benefit-item">👉 Chaque matin à 7h00, tu reçois 1&nbsp;mini-vidéo<br>pour reprendre tes finances en main</p>
+    </div>
+</section>
+
+<!-- ══════════ FORM ══════════ -->
+<section class="form-section">
+    <p class="form-eyebrow">✦ Inscription gratuite ✦</p>
+    <h2>Réserve ta place maintenant</h2>
+    <p class="form-sub">5&nbsp;jours pour changer ton rapport à l'argent — sans prise de tête.</p>
+
+    <div class="form-wrapper">
+
+        <form class="signup-form" id="form-hero">
+            <input type="text"  name="first_name" placeholder="Ton prénom" required />
+            <input type="email" name="email"       placeholder="Ton adresse email" required />
+            <button type="submit" class="btn-cta">🎉 Je veux recevoir mon invitation !</button>
+            <p class="form-error" style="display:none;color:#e53e3e;font-size:.85rem;margin-top:10px;font-weight:600;"></p>
+        </form>
+
+        <p class="form-note">🔒 Tes données restent privées. Désabonnement en 1 clic.</p>
+    </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="how">
+    <h2>🚀 Comment ça se passe ?</h2>
+
+    <div class="how-cards">
+        <div class="how-card">
+            <div class="emoji">📩</div>
+            <h3>1 vidéo courte</h3>
+            <p>Chaque matin à 7h00, tu reçois une vidéo de moins de 15&nbsp;min directement dans ta boîte mail.</p>
+        </div>
+        <div class="how-card">
+            <div class="emoji">⚡</div>
+            <h3>1 mini-mission</h3>
+            <p>Une action concrète à faire tout de suite — pour avancer vraiment, pas juste apprendre.</p>
+        </div>
+        <div class="how-card">
+            <div class="emoji">⏱</div>
+            <h3>À ton rythme</h3>
+            <p>Pas de live, pas de rendez-vous. Tu as 24h pour regarder chaque vidéo où et quand tu veux.</p>
+        </div>
+    </div>
+
+    <div class="how-cta-wrap">
+        <form class="signup-form" id="form-bottom">
+            <input type="text"  name="first_name" placeholder="Ton prénom"       required style="width:100%;padding:16px 20px;border:2px solid rgba(255,255,255,.3);border-radius:10px;font-size:1rem;font-family:'Montserrat',sans-serif;margin-bottom:14px;outline:none;background:rgba(255,255,255,.1);color:white;" />
+            <input type="email" name="email"       placeholder="Ton adresse email" required style="width:100%;padding:16px 20px;border:2px solid rgba(255,255,255,.3);border-radius:10px;font-size:1rem;font-family:'Montserrat',sans-serif;margin-bottom:14px;outline:none;background:rgba(255,255,255,.1);color:white;" />
+            <button type="submit" class="btn-cta">🎉 Je veux recevoir mon invitation !</button>
+            <p class="form-error" style="display:none;color:#ffb3b3;font-size:.85rem;margin-top:10px;font-weight:600;"></p>
+        </form>
+    </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+    <p class="disclaimer">
+        📌 La semaine Money Smart a une visée éducative uniquement&nbsp;:<br>
+        Il ne s'agit ni de conseils financiers personnalisés, ni d'une incitation à acheter un actif ou un produit financier.
+        Tout investissement implique le risque de perdre tout ou partie de son capital.
+        Les performances passées ne présagent pas des performances futures.
+        Investir ne permet pas de résoudre ses difficultés financières.
+    </p>
+    <div class="footer-links">
+        <a href="#">Conditions générales de ventes</a>
+        <a href="#">Politique de confidentialité</a>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.signup-form').forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button[type=submit]');
+            const errEl = form.querySelector('.form-error');
+            const firstName = form.querySelector('[name=first_name]').value.trim();
+            const email = form.querySelector('[name=email]').value.trim();
+
+            btn.disabled = true;
+            btn.textContent = 'Inscription en cours...';
+            errEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/functions/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName,
+                        email,
+                        tags: ['La semaine Money Smart', 'Newsletter'],
+                    }),
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    window.location.href = '/merci';
+                } else {
+                    throw new Error(data.error || 'Une erreur est survenue');
+                }
+            } catch (err) {
+                errEl.textContent = '❌ ' + err.message + ' — réessaie ou contacte-moi.';
+                errEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = '🎉 Je veux recevoir mon invitation !';
+            }
+        });
+    });
+</script>
+</body>
+</html>
