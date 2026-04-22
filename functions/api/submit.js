@@ -22,23 +22,36 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Email et prénom requis' }, 400);
   }
 
-  const response = await fetch('https://api.systeme.io/api/contacts', {
+  // Créer le contact
+  const createRes = await fetch('https://api.systeme.io/api/contacts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-API-Key': env.SYSTEME_API_KEY,
     },
-    body: JSON.stringify({
-      email,
-      firstName,
-      tags: tags.map(name => ({ name })),
-    }),
+    body: JSON.stringify({ email, firstName }),
   });
 
-  const data = await response.json();
+  const createData = await createRes.json();
 
-  if (!response.ok && response.status !== 409) {
-    return json({ error: data.message || 'Erreur Systeme.io' }, 500);
+  if (!createRes.ok && createRes.status !== 409) {
+    return json({ error: createData.message || 'Erreur création contact' }, 500);
+  }
+
+  const contactId = createData.id;
+
+  // Ajouter les tags un par un
+  if (contactId && tags.length > 0) {
+    for (const tagName of tags) {
+      await fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': env.SYSTEME_API_KEY,
+        },
+        body: JSON.stringify({ name: tagName }),
+      });
+    }
   }
 
   return json({ success: true });
