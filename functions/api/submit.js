@@ -22,13 +22,15 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Email et prénom requis' }, 400);
   }
 
-  // Créer le contact
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-API-Key': env.SYSTEME_API_KEY,
+  };
+
+  // 1. Créer le contact
   const createRes = await fetch('https://api.systeme.io/api/contacts', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': env.SYSTEME_API_KEY,
-    },
+    headers,
     body: JSON.stringify({ email, firstName }),
   });
 
@@ -39,19 +41,23 @@ export async function onRequestPost({ request, env }) {
   }
 
   const contactId = createData.id;
+  if (!contactId) return json({ success: true }); // contact déjà existant sans ID retourné
 
-  // Ajouter les tags un par un
-  if (contactId && tags.length > 0) {
-    for (const tagName of tags) {
-      await fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': env.SYSTEME_API_KEY,
-        },
-        body: JSON.stringify({ name: tagName }),
-      });
-    }
+  // 2. Récupérer tous les tags pour trouver les IDs par nom
+  const tagsRes = await fetch('https://api.systeme.io/api/tags?itemsPerPage=100', { headers });
+  const tagsData = await tagsRes.json();
+  const allTags = tagsData['hydra:member'] || [];
+
+  // 3. Assigner chaque tag par son ID
+  for (const tagName of tags) {
+    const tag = allTags.find(t => t.name === tagName);
+    if (!tag) continue;
+
+    await fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ tagId: tag.id }),
+    });
   }
 
   return json({ success: true });
