@@ -41,22 +41,16 @@ export async function onRequestPost({ request, env }) {
   }
 
   const contactId = createData.id;
-  if (!contactId) return json({ success: true }); // contact déjà existant sans ID retourné
+  if (!contactId) return json({ success: true });
 
-  // 2. Récupérer tous les tags pour trouver les IDs par nom
-  const tagsRes = await fetch('https://api.systeme.io/api/tags?itemsPerPage=100', { headers });
-  const tagsData = await tagsRes.json();
-  const allTags = tagsData['hydra:member'] || [];
+  // IDs des tags Systeme.io (fixes)
+  const TAG_IDS = [1791410, 1397916]; // La semaine Money Smart, Newsletter
 
-  // 3. Assigner chaque tag par son ID
-  for (const tagName of tags) {
-    const tag = allTags.find(t => t.name === tagName);
-    if (!tag) continue;
-
+  for (const tagId of TAG_IDS) {
     await fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ tagId: tag.id }),
+      body: JSON.stringify({ tagId }),
     });
   }
 
