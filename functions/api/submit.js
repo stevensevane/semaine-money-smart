@@ -30,8 +30,10 @@ export async function onRequestPost({ request, env }) {
   // Pays via Cloudflare
   const country = request.headers.get('CF-IPCountry') || null;
 
-  const contactPayload = { email, firstName };
-  if (country) contactPayload.country = country;
+  const fields = [{ slug: 'first_name', value: firstName }];
+  if (country) fields.push({ slug: 'country', value: country });
+
+  const contactPayload = { email, fields };
 
   // 1. Créer le contact
   const createRes = await fetch('https://api.systeme.io/api/contacts', {
