@@ -8,7 +8,7 @@ export async function onRequestOptions() {
   return new Response(null, { headers: CORS_HEADERS });
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   let body;
   try {
     body = await request.json();
@@ -53,14 +53,14 @@ export async function onRequestPost({ request, env }) {
   const contactId = createData.id;
   if (!contactId) return json({ success: true });
 
-  // 2. Ajouter les 2 tags en parallèle
-  await Promise.all([1791410, 1397916].map(tagId =>
+  // 2. Ajouter les tags en arrière-plan (serveur Cloudflare, indépendant du navigateur)
+  waitUntil(Promise.all([1791410, 1397916].map(tagId =>
     fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ tagId }),
     })
-  ));
+  )));
 
   return json({ success: true });
 }
