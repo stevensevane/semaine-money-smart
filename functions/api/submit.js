@@ -45,16 +45,14 @@ export async function onRequestPost({ request, env }) {
   const contactId = createData.id;
   if (!contactId) return json({ success: true });
 
-  // IDs des tags Systeme.io (fixes)
-  const TAG_IDS = [1791410, 1397916]; // La semaine Money Smart, Newsletter
-
-  for (const tagId of TAG_IDS) {
-    await fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
+  // Ajouter les 2 tags en parallèle
+  await Promise.all([1791410, 1397916].map(tagId =>
+    fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ tagId }),
-    });
-  }
+    })
+  ));
 
   return json({ success: true });
 }
