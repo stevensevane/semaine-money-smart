@@ -16,7 +16,7 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Corps de requête invalide' }, 400);
   }
 
-  const { email, firstName, tags = [] } = body;
+  const { email, firstName } = body;
 
   if (!email || !firstName) {
     return json({ error: 'Email et prénom requis' }, 400);
@@ -27,25 +27,31 @@ export async function onRequestPost({ request, env }) {
     'X-API-Key': env.SYSTEME_API_KEY,
   };
 
+  // Pays via Cloudflare
+  const country = request.headers.get('CF-IPCountry') || null;
+
+  const contactPayload = { email, firstName };
+  if (country) contactPayload.country = country;
+
   // 1. Créer le contact
   const createRes = await fetch('https://api.systeme.io/api/contacts', {
     method: 'POST',
     headers,
-    body: JSON.stringify({ email, firstName }),
+    body: JSON.stringify(contactPayload),
   });
 
   const createData = await createRes.json();
 
   if (!createRes.ok) {
     const isDuplicate = createRes.status === 409 || createRes.status === 422;
-    if (isDuplicate) return json({ success: true }); // contact déjà existant → on redirige quand même vers /merci
-    return json({ error: `Erreur ${createRes.status}: ${createData.detail || createData.message}` }, 500);
+    if (isDuplicate) return json({ success: true });
+    return json({ error: `Erreur ${createRes.status}: ${JSON.stringify(createData)}` }, 500);
   }
 
   const contactId = createData.id;
   if (!contactId) return json({ success: true });
 
-  // Ajouter les 2 tags en parallèle
+  // 2. Ajouter les 2 tags en parallèle
   await Promise.all([1791410, 1397916].map(tagId =>
     fetch(`https://api.systeme.io/api/contacts/${contactId}/tags`, {
       method: 'POST',
