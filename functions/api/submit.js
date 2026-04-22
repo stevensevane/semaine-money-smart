@@ -37,7 +37,7 @@ export async function onRequestPost({ request, env }) {
   const createData = await createRes.json();
 
   if (!createRes.ok && createRes.status !== 409) {
-    return json({ error: createData.message || 'Erreur création contact' }, 500);
+    return json({ error: `Erreur ${createRes.status}: ${JSON.stringify(createData)}` }, 500);
   }
 
   const contactId = createData.id;
