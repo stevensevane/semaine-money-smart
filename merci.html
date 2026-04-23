@@ -4,168 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmation - Semaine Money Smart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --blue:       #3535CC;
-            --blue-dark:  #2828A8;
-            --blue-light: #5555E0;
-            --lavender:   #ECEEFF;
-            --green:      #39D353;
-            --green-dark: #28B840;
-            --white:      #FFFFFF;
-            --text:       #1A1A2E;
+            --navy:   #1E3170;
+            --accent: #03FDA9;
+            --dark:   #111111;
+            --white:  #FFFFFF;
+            --bg:     #F2F2F0;
+            --grid:   rgba(171,196,255,0.07);
+            --r-card: 14px;
+            --r-pill: 999px;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text);
-            background: var(--blue);
+            font-family: 'Instrument Sans', sans-serif;
+            color: var(--dark);
+            background: var(--bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
+        /* ── SCROLL ANIMATIONS ── */
+        .r, .r-left, .r-right, .r-fade {
+            opacity: 0;
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .r      { transform: translateY(32px); }
+        .r-left { transform: translateX(-32px); }
+        .r-right{ transform: translateX(32px); }
+        .r-fade { transform: none; }
+        .r.on, .r-left.on, .r-right.on, .r-fade.on { opacity: 1; transform: none; }
+
         /* ── HEADER ── */
         .header {
-            background: var(--blue-dark);
-            padding: 24px;
+            background: var(--navy);
+            background-image:
+                repeating-linear-gradient(0deg,var(--grid) 0,var(--grid) 1px,transparent 1px,transparent 28px),
+                repeating-linear-gradient(90deg,var(--grid) 0,var(--grid) 1px,transparent 1px,transparent 28px);
+            padding: 52px 24px 64px;
             text-align: center;
         }
-
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(3,253,169,.15);
+            border: 1px solid rgba(3,253,169,.3);
+            border-radius: var(--r-pill);
+            padding: 6px 16px;
+            font-size: .8rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: .04em;
+            margin-bottom: 20px;
+        }
         .header h1 {
             font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 900;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
-
+        .header h1 .accent { color: var(--accent); }
         .header p {
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 1rem;
-            color: rgba(255,255,255,.75);
+            color: rgba(255,255,255,.65);
             font-weight: 500;
         }
 
-        /* ── CARD ── */
+        /* ── CARD WRAP ── */
         .card-wrap {
             flex: 1;
-            padding: 48px 24px;
+            padding: 48px 24px 64px;
             display: flex;
             justify-content: center;
         }
-
         .card {
-            background: white;
-            border-radius: 24px;
-            padding: 48px 40px;
+            background: var(--white);
+            border-radius: var(--r-card);
+            padding: 48px 44px;
             max-width: 640px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,.2);
+            box-shadow: 0 4px 32px rgba(0,0,0,.08);
         }
 
-        .photo-wrap {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 32px;
-        }
-
+        /* ── PHOTO ── */
+        .photo-wrap { display: flex; justify-content: center; margin-bottom: 36px; }
         .photo-wrap img {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--green);
-            box-shadow: 0 4px 20px rgba(57,211,83,.3);
+            border: 4px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(3,253,169,.25), 0 0 0 6px rgba(3,253,169,.08);
         }
 
-        .card p {
-            font-size: .98rem;
-            line-height: 1.7;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .card p:last-child { margin-bottom: 0; }
-
-        .card strong { color: var(--text); }
-
-        .step {
-            background: var(--lavender);
-            border-left: 4px solid var(--blue);
-            border-radius: 0 12px 12px 0;
-            padding: 16px 20px;
-            margin-bottom: 16px;
-        }
-
-        .step p { margin-bottom: 0; }
-
-        .step-title {
-            font-weight: 800;
+        /* ── CARD CONTENT ── */
+        .card-intro {
             font-size: 1rem;
-            color: var(--blue);
-            margin-bottom: 6px !important;
-        }
-
-        ul {
-            margin: 10px 0 0 20px;
-        }
-
-        ul li {
-            font-size: .92rem;
             line-height: 1.7;
             color: #444;
+            margin-bottom: 28px;
         }
+        .card-intro strong { color: var(--navy); font-weight: 700; }
 
-        .signature {
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid #EEE;
+        /* ── STEPS ── */
+        .step {
+            background: var(--bg);
+            border-left: 3px solid var(--navy);
+            border-radius: 0 var(--r-card) var(--r-card) 0;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+        }
+        .step-title {
+            font-weight: 700;
             font-size: .95rem;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+        .step p {
+            font-size: .9rem;
+            line-height: 1.65;
+            color: #555;
+        }
+        .step strong { color: var(--navy); font-weight: 700; }
+
+        /* ── LIST ── */
+        .content-list {
+            margin: 10px 0 0 20px;
+        }
+        .content-list li {
+            font-size: .9rem;
+            line-height: 1.7;
             color: #555;
         }
 
+        /* ── TEASER ── */
+        .teaser {
+            font-size: .95rem;
+            line-height: 1.7;
+            color: #444;
+            margin: 20px 0;
+        }
+        .teaser strong { color: var(--navy); font-weight: 700; }
+
+        /* ── SIGNATURE ── */
+        .signature {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #EEE;
+            font-size: .95rem;
+            color: #666;
+        }
         .signature strong {
             display: block;
             font-size: 1.1rem;
-            color: var(--blue);
+            font-weight: 700;
+            color: var(--navy);
             margin-top: 4px;
         }
 
         /* ── FOOTER ── */
         footer {
-            background: var(--blue-dark);
+            background: var(--navy);
             color: white;
-            padding: 32px 24px;
+            padding: 40px 24px;
             text-align: center;
         }
-
         .disclaimer {
             font-size: .72rem;
-            line-height: 1.7;
-            opacity: .6;
+            line-height: 1.8;
+            color: rgba(255,255,255,.35);
             max-width: 680px;
-            margin: 0 auto 20px;
+            margin: 0 auto 24px;
         }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
-
+        .footer-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
         .footer-links a {
             color: white;
             font-size: .82rem;
             font-weight: 600;
-            opacity: .75;
+            opacity: .5;
             text-decoration: none;
+            transition: opacity .15s;
         }
-
         .footer-links a:hover { opacity: 1; }
 
         @media (max-width: 520px) {
@@ -176,41 +204,41 @@
 <body>
 
 <header class="header">
-    <h1>🎉 Confirmation</h1>
-    <p>Ton inscription a bien été prise en compte !</p>
+    <div class="header-badge">Inscription confirmée</div>
+    <h1>Tu es <span class="accent">inscrite</span> !</h1>
+    <p>Ton inscription a bien été prise en compte.</p>
 </header>
 
 <div class="card-wrap">
     <div class="card">
 
-        <div class="photo-wrap">
-            <!-- Remplace src par l'URL de ta vraie photo -->
+        <div class="photo-wrap r">
             <img src="sarahprofilpic.jpg" alt="Sarah" />
         </div>
 
-        <p>Tu viens de rejoindre la <strong>Semaine Money Smart</strong> , bravo pour ce premier pas !</p>
+        <p class="card-intro r">Tu viens de rejoindre la <strong>Semaine Money Smart</strong>, bravo pour ce premier pas !</p>
 
-        <div class="step">
-            <p class="step-title">✅ Prochaine étape</p>
+        <div class="step r">
+            <div class="step-title">Prochaine étape</div>
             <p>Note bien la date : la <strong>Semaine Money Smart démarre le lundi 27 Avril.</strong><br>
-            Pendant <strong>5 jours</strong>, tu recevras chaque jour <strong>une vidéo + une mission à réaliser à 7h !</strong></p>
+            Pendant <strong>5 jours</strong>, tu recevras chaque jour <strong>une vidéo et une mission à réaliser à 7h !</strong></p>
         </div>
 
-        <div class="step">
-            <p class="step-title">📅 Ajoute l'événement à ton calendrier</p>
+        <div class="step r">
+            <div class="step-title">📅 Ajoute l'événement à ton calendrier</div>
             <p>Pour ne rien oublier et garder le rythme sur les 5 jours.</p>
         </div>
 
-        <div class="step">
-            <p class="step-title">📩 Vérifie tes spams / promotions</p>
+        <div class="step r">
+            <div class="step-title">📩 Vérifie tes spams / promotions</div>
             <p>Ajoute mon email à tes contacts pour être sûre de recevoir <strong>tous les défis</strong> chaque jour.</p>
         </div>
 
-        <p>Et en fin de semaine, j'ouvrirai les portes du parcours <strong>Money Smart Invest</strong> si tu souhaites aller plus loin pour apprendre à investir à mes côtés !</p>
+        <p class="teaser r">Et en fin de semaine, j'ouvrirai les portes du parcours <strong>Money Smart Invest</strong> si tu souhaites aller plus loin pour apprendre à investir à mes côtés !</p>
 
-        <div class="step">
-            <p class="step-title">🗒️ Ce qui t'attend dans les grandes lignes :</p>
-            <ul>
+        <div class="step r">
+            <div class="step-title">Ce qui t'attend dans les grandes lignes :</div>
+            <ul class="content-list">
                 <li>Quels pièges éviter avant d'acheter une action ?</li>
                 <li>Comment choisir une action sans y passer des heures (et sans jouer au casino) ?</li>
                 <li>Quelle plateforme choisir et sur quels critères comparer ?</li>
@@ -218,7 +246,7 @@
             </ul>
         </div>
 
-        <div class="signature">
+        <div class="signature r">
             À très vite,
             <strong>Sarah</strong>
         </div>
@@ -228,7 +256,7 @@
 
 <footer>
     <p class="disclaimer">
-        📌 La semaine Money Smart a une visée éducative uniquement :<br>
+        La semaine Money Smart a une visée éducative uniquement :<br>
         Il ne s'agit ni de conseils financiers personnalisés, ni d'une incitation à acheter un actif ou un produit financier.
         Tout investissement implique le risque de perdre tout ou partie de son capital.
         Les performances passées ne présagent pas des performances futures.
@@ -239,5 +267,13 @@
     </div>
 </footer>
 
+<script>
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.r,.r-left,.r-right,.r-fade').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
