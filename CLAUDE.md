@@ -15,29 +15,28 @@ URL production : https://semaine-money-smart.moneducationfinanciere.com
 
 Le test utilise Playwright pour simuler une vraie inscription dans le navigateur.
 
-**Le test comporte DEUX cas à chaque fois :**
+**Le test comporte DEUX cas à chaque fois.**
 
-### Cas 1 — Nouvel email
-1. Lire `.test-counter` pour obtenir le numéro N du dernier test
-2. Calculer le prochain : N+1
-3. Naviguer sur https://semaine-money-smart.moneducationfinanciere.com avec Playwright
-4. Remplir le formulaire :
-   - Prénom : `TestPrenom`
-   - Email : `stevensevane+testN+1@gmail.com`
-5. Cliquer sur le bouton de soumission
-6. Vérifier que la page redirige vers `/merci`
-7. Incrémenter `.test-counter` (écrire N+1)
+Avant de tester, demander à Sarah : "Quel email de test tu veux utiliser ?"
+Extraire le prénom depuis l'email (ex: `steven.sevane+999@gmail.com` → prénom `Steven`).
 
-### Cas 2 — Email existant en base (le cas le plus fréquent en prod)
-1. Naviguer à nouveau sur la page d'accueil
-2. Remplir le formulaire avec un email déjà dans Systeme.io :
-   - Prénom : `TestPrenom`
-   - Email : `steven.sevane+999@gmail.com` (contact existant dédié aux tests)
-3. Vérifier que la page redirige vers `/merci` (pas d'erreur)
+### Cas 1 — Email existant en base (le cas le plus fréquent en prod)
+1. Naviguer sur https://semaine-money-smart.moneducationfinanciere.com avec Playwright
+2. Remplir le formulaire avec l'email fourni par Sarah + prénom extrait de l'email
+3. Vérifier que la page redirige vers `/merci`
+
+### Cas 2 — Nouvel email
+1. Lire `.test-counter` pour obtenir le numéro N
+2. Naviguer à nouveau sur la page d'accueil
+3. Remplir le formulaire :
+   - Email : version +testN+1 de l'email fourni (ex: `steven.sevane+test6@gmail.com`)
+   - Prénom : extrait de l'email (ex: `Steven`)
+4. Vérifier que la page redirige vers `/merci`
+5. Incrémenter `.test-counter` (écrire N+1)
 
 **Vérification manuelle après le test :**
-- Ouvrir Systeme.io et vérifier que `stevensevane+testN+1@gmail.com` existe avec le prénom et les 2 tags
-- Vérifier que `steven.sevane+999@gmail.com` a bien reçu les tags (La semaine Money Smart + Newsletter)
+- Ouvrir Systeme.io et vérifier le nouvel email : prénom correct + tags "La semaine Money Smart" (1791410) et "Newsletter" (1397916)
+- Vérifier que l'email existant a bien reçu les 2 tags
 
 **Ne pas tester à chaque micro-changement** — uniquement quand Sarah le demande explicitement.
 
