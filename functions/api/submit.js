@@ -44,13 +44,20 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   const createData = await createRes.json();
 
+  let contactId;
+
   if (!createRes.ok) {
     const isDuplicate = createRes.status === 409 || createRes.status === 422;
-    if (isDuplicate) return json({ success: true });
-    return json({ error: `Erreur ${createRes.status}: ${JSON.stringify(createData)}` }, 500);
+    if (!isDuplicate) return json({ error: `Erreur ${createRes.status}: ${JSON.stringify(createData)}` }, 500);
+
+    // Contact existant : on cherche son ID par email pour quand même ajouter les tags
+    const searchRes = await fetch(`https://api.systeme.io/api/contacts?email=${encodeURIComponent(email)}`, { headers });
+    const searchData = await searchRes.json();
+    contactId = searchData.items?.[0]?.id;
+  } else {
+    contactId = createData.id;
   }
 
-  const contactId = createData.id;
   if (!contactId) return json({ success: true });
 
   // 2. Ajouter les tags en arrière-plan (serveur Cloudflare, indépendant du navigateur)
