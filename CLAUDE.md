@@ -17,26 +17,28 @@ Le test utilise Playwright pour simuler une vraie inscription dans le navigateur
 
 **Le test comporte DEUX cas à chaque fois.**
 
-Avant de tester, demander à Sarah : "Quel email de test tu veux utiliser ?"
-Extraire le prénom depuis l'email (ex: `steven.sevane+999@gmail.com` → prénom `Steven`).
+Emails de test fixes :
+- Email existant : `steven.sevane+999@gmail.com` / prénom `Steven` — ne jamais supprimer du CRM
+- Nouvel email : `stevensevane+testN@gmail.com` / prénom `Steven` — incrémenté via `.test-counter`
 
-### Cas 1 — Email existant en base (le cas le plus fréquent en prod)
+### Étape 0 — Avant de commencer
+Demander à Sarah de supprimer les tags "La semaine Money Smart" et "Newsletter" du contact `steven.sevane+999@gmail.com` dans Systeme.io, et attendre sa confirmation avant de continuer.
+
+### Cas 1 — Email existant en base
 1. Naviguer sur https://semaine-money-smart.moneducationfinanciere.com avec Playwright
-2. Remplir le formulaire avec l'email fourni par Sarah + prénom extrait de l'email
+2. Remplir : email `steven.sevane+999@gmail.com`, prénom `Steven`
 3. Vérifier que la page redirige vers `/merci`
 
 ### Cas 2 — Nouvel email
 1. Lire `.test-counter` pour obtenir le numéro N
 2. Naviguer à nouveau sur la page d'accueil
-3. Remplir le formulaire :
-   - Email : version +testN+1 de l'email fourni (ex: `steven.sevane+test6@gmail.com`)
-   - Prénom : extrait de l'email (ex: `Steven`)
+3. Remplir : email `stevensevane+testN+1@gmail.com`, prénom `Steven`
 4. Vérifier que la page redirige vers `/merci`
 5. Incrémenter `.test-counter` (écrire N+1)
 
-**Vérification manuelle après le test :**
-- Ouvrir Systeme.io et vérifier le nouvel email : prénom correct + tags "La semaine Money Smart" (1791410) et "Newsletter" (1397916)
-- Vérifier que l'email existant a bien reçu les 2 tags
+**Vérification manuelle après le test (par Sarah) :**
+- `steven.sevane+999@gmail.com` a bien les 2 tags (La semaine Money Smart + Newsletter)
+- `stevensevane+testN+1@gmail.com` existe avec prénom `Steven` + les 2 tags
 
 **Ne pas tester à chaque micro-changement** — uniquement quand Sarah le demande explicitement.
 
