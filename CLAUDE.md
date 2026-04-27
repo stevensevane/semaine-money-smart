@@ -15,7 +15,9 @@ URL production : https://semaine-money-smart.moneducationfinanciere.com
 
 Le test utilise Playwright pour simuler une vraie inscription dans le navigateur.
 
-**Étapes :**
+**Le test comporte DEUX cas à chaque fois :**
+
+### Cas 1 — Nouvel email
 1. Lire `.test-counter` pour obtenir le numéro N du dernier test
 2. Calculer le prochain : N+1
 3. Naviguer sur https://semaine-money-smart.moneducationfinanciere.com avec Playwright
@@ -26,10 +28,16 @@ Le test utilise Playwright pour simuler une vraie inscription dans le navigateur
 6. Vérifier que la page redirige vers `/merci`
 7. Incrémenter `.test-counter` (écrire N+1)
 
+### Cas 2 — Email existant en base (le cas le plus fréquent en prod)
+1. Naviguer à nouveau sur la page d'accueil
+2. Remplir le formulaire avec un email déjà dans Systeme.io :
+   - Prénom : `TestPrenom`
+   - Email : `steven.sevane+999@gmail.com` (contact existant dédié aux tests)
+3. Vérifier que la page redirige vers `/merci` (pas d'erreur)
+
 **Vérification manuelle après le test :**
-- Ouvrir Systeme.io et vérifier que le contact `stevensevane+testN+1@gmail.com` existe
-- Vérifier que le prénom "TestPrenom" est bien enregistré
-- Vérifier que les tags "La semaine Money Smart" (id: 1791410) et "Newsletter" (id: 1397916) sont appliqués
+- Ouvrir Systeme.io et vérifier que `stevensevane+testN+1@gmail.com` existe avec le prénom et les 2 tags
+- Vérifier que `steven.sevane+999@gmail.com` a bien reçu les tags (La semaine Money Smart + Newsletter)
 
 **Ne pas tester à chaque micro-changement** — uniquement quand Sarah le demande explicitement.
 
