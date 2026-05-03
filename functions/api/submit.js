@@ -16,11 +16,16 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return json({ error: 'Corps de requête invalide' }, 400);
   }
 
-  const { email, firstName, whatsapp } = body;
+  const { email, firstName, whatsapp: rawWhatsapp } = body;
 
   if (!email || !firstName) {
     return json({ error: 'Email et prénom requis' }, 400);
   }
+
+  // Normalise les numéros français sans indicatif (0XXXXXXXXX → +33XXXXXXXXX)
+  const whatsapp = rawWhatsapp && rawWhatsapp.startsWith('0')
+    ? '+33' + rawWhatsapp.slice(1)
+    : rawWhatsapp || null;
 
   const headers = {
     'Content-Type': 'application/json',
@@ -57,11 +62,15 @@ export async function onRequestPost({ request, env, waitUntil }) {
     contactId = searchData.items?.[0]?.id;
 
     if (contactId) {
-      await fetch(`https://api.systeme.io/api/contacts/${contactId}`, {
+      const patchRes = await fetch(`https://api.systeme.io/api/contacts/${contactId}`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify({ fields }),
       });
+      if (!patchRes.ok) {
+        const patchData = await patchRes.json();
+        return json({ error: `PATCH échoué ${patchRes.status}: ${JSON.stringify(patchData)}` }, 500);
+      }
     }
   } else {
     contactId = createData.id;
