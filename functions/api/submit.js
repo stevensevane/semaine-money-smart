@@ -62,15 +62,11 @@ export async function onRequestPost({ request, env, waitUntil }) {
     contactId = searchData.items?.[0]?.id;
 
     if (contactId) {
-      const patchRes = await fetch(`https://api.systeme.io/api/contacts/${contactId}`, {
+      await fetch(`https://api.systeme.io/api/contacts/${contactId}`, {
         method: 'PATCH',
-        headers,
+        headers: { ...headers, 'Content-Type': 'application/merge-patch+json' },
         body: JSON.stringify({ fields }),
       });
-      if (!patchRes.ok) {
-        const patchData = await patchRes.json();
-        return json({ error: `PATCH échoué ${patchRes.status}: ${JSON.stringify(patchData)}` }, 500);
-      }
     }
   } else {
     contactId = createData.id;
