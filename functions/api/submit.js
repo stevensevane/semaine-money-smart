@@ -16,7 +16,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     return json({ error: 'Corps de requête invalide' }, 400);
   }
 
-  const { email, firstName } = body;
+  const { email, firstName, whatsapp } = body;
 
   if (!email || !firstName) {
     return json({ error: 'Email et prénom requis' }, 400);
@@ -32,6 +32,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   const fields = [{ slug: 'first_name', value: firstName }];
   if (country) fields.push({ slug: 'country', value: country });
+  if (whatsapp) fields.push({ slug: 'phone_number', value: whatsapp });
 
   const contactPayload = { email, fields };
 

@@ -396,6 +396,7 @@
             <form class="signup-form">
                 <input type="text"  name="first_name" placeholder="Ton prénom" required />
                 <input type="email" name="email"       placeholder="Ton adresse email" required />
+                <input type="tel"   name="whatsapp"   placeholder="Ton numéro WhatsApp (optionnel)" autocomplete="tel" />
                 <button type="submit" class="btn-cta">Je veux recevoir mon invitation</button>
                 <p class="form-error" style="display:none;color:#e53e3e;font-size:.82rem;margin-top:10px;font-weight:600;"></p>
             </form>
@@ -460,6 +461,7 @@
             const errEl = form.querySelector('.form-error');
             const firstName = form.querySelector('[name=first_name]').value.trim();
             const email = form.querySelector('[name=email]').value.trim();
+            const whatsapp = form.querySelector('[name=whatsapp]').value.trim();
 
             btn.disabled = true;
             btn.textContent = 'Inscription en cours...';
@@ -469,7 +471,7 @@
                 const res = await fetch('/api/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ firstName, email }),
+                    body: JSON.stringify({ firstName, email, whatsapp }),
                 });
 
                 const text = await res.text();
