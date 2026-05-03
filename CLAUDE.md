@@ -22,23 +22,23 @@ Emails de test fixes :
 - Nouvel email : `stevensevane+testN@gmail.com` / prénom `Steven` — incrémenté via `.test-counter`
 
 ### Étape 0 — Avant de commencer
-Demander à Sarah de supprimer les tags "La semaine Money Smart" et "Newsletter" du contact `steven.sevane+999@gmail.com` dans Systeme.io, et attendre sa confirmation avant de continuer.
+Demander à Sarah de supprimer uniquement le tag "La semaine Money Smart" du contact `steven.sevane+999@gmail.com` dans Systeme.io (le tag "Newsletter" peut rester), et attendre sa confirmation avant de continuer.
 
-### Cas 1 — Email existant en base
+### Cas 1 — Email existant en base (a déjà le tag Newsletter)
 1. Naviguer sur https://semaine-money-smart.moneducationfinanciere.com avec Playwright
-2. Remplir : email `steven.sevane+999@gmail.com`, prénom `Steven`
+2. Remplir : email `steven.sevane+999@gmail.com`, prénom `Steven`, WhatsApp laisser vide
 3. Vérifier que la page redirige vers `/merci`
 
 ### Cas 2 — Nouvel email
 1. Lire `.test-counter` pour obtenir le numéro N
 2. Naviguer à nouveau sur la page d'accueil
-3. Remplir : email `stevensevane+testN+1@gmail.com`, prénom `Steven`
+3. Remplir : email `stevensevane+testN+1@gmail.com`, prénom `Steven`, WhatsApp `+33600000001`
 4. Vérifier que la page redirige vers `/merci`
 5. Incrémenter `.test-counter` (écrire N+1)
 
 **Vérification manuelle après le test (par Sarah) :**
-- `steven.sevane+999@gmail.com` a bien les 2 tags (La semaine Money Smart + Newsletter)
-- `stevensevane+testN+1@gmail.com` existe avec prénom `Steven` + les 2 tags
+- `steven.sevane+999@gmail.com` a bien le tag "La semaine Money Smart" (Newsletter était déjà présent)
+- `stevensevane+testN+1@gmail.com` existe avec prénom `Steven` + les 2 tags + numéro WhatsApp `+33600000001`
 
 **Ne pas tester à chaque micro-changement** — uniquement quand Sarah le demande explicitement.
 
