@@ -72,7 +72,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
     contactId = createData.id;
   }
 
-  if (!contactId) return json({ success: true });
+  // DEBUG TEMPORAIRE — à supprimer
+  if (!contactId) return json({ success: true, _debug: { createStatus: createRes.status, createData } });
 
   // 2. Ajouter les tags en arrière-plan (serveur Cloudflare, indépendant du navigateur)
   waitUntil(Promise.all([1791410, 1397916].map(tagId =>
