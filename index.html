@@ -493,5 +493,10 @@
         });
     });
 </script>
+<script>
+  // pré-remplir l'email depuis ?email= (lien envoyé par n8n)
+  const _qmail = new URLSearchParams(location.search).get('email');
+  if (_qmail) { const _e = document.querySelector('[name=email]'); if (_e) _e.value = _qmail.trim(); }
+</script>
 </body>
 </html>
